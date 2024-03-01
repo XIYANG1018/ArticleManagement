@@ -1,6 +1,7 @@
 package org.example.service.impl;
 
 import org.example.mapper.UserMapper;
+import org.example.pojo.Result;
 import org.example.pojo.User;
 import org.example.utils.Md5Util;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class UserServiceImpl implements UserService {
 
         // add to the mapper
         userMapper.add(username, md5String);
-
-
     }
+
+
 }
