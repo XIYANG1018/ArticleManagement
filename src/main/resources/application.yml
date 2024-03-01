@@ -5,5 +5,5 @@ spring:
     url: jdbc:mysql://localhost:3306/big_event
     # 数据库连接的URL。在这里，使用的是MySQL数据库的连接URL，指定了主机（localhost）、端口（3306）、以及数据库名（big_event）等信息。
     username: root
-    password: 1234
+    password: aiwohaobuhao888
 

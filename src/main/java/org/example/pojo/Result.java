@@ -4,10 +4,12 @@ package org.example.pojo;
 // Unified Response Result
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @AllArgsConstructor
+@Data // generate getter and setter automatically
 public class Result<T> {
     private Integer code; // status codes: 0 - Success, 1 - Failure
     private String message;
