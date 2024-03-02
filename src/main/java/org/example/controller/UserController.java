@@ -4,12 +4,16 @@ import jakarta.validation.constraints.Pattern;
 import org.example.pojo.Result;
 import org.example.pojo.User;
 import org.example.service.impl.UserService;
+import org.example.utils.JwtUtil;
 import org.example.utils.Md5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/user") // Request Mapping Path
@@ -57,7 +61,13 @@ public class UserController {
         // check password
         if (Md5Util.getMD5String(password).equals(loginUser.getPassword())) {
             // Success
-            return Result.success("jwt token");
+            Map<String, Object> claims = new HashMap<>();
+            claims.put("id", loginUser.getId());
+            claims.put("username", loginUser.getUsername());
+
+            String token = JwtUtil.genToken(claims);
+
+            return Result.success(token);
         }
 
         return Result.error("Wrong password");
