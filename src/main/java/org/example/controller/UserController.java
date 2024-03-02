@@ -1,16 +1,18 @@
 package org.example.controller;
 
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.validation.constraints.Pattern;
 import org.example.pojo.Result;
 import org.example.pojo.User;
 import org.example.service.impl.UserService;
 import org.example.utils.JwtUtil;
 import org.example.utils.Md5Util;
+import org.example.utils.ThreadLocalUtil;
+import org.hibernate.validator.constraints.URL;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -71,5 +73,64 @@ public class UserController {
         }
 
         return Result.error("Wrong password");
+    }
+
+    @GetMapping("/userInfo")
+    public Result<User> userInfo(/*@RequestHeader(name = "Authorization") String token*/) {
+//        // search user by name
+//        Map<String, Object> map = JwtUtil.parseToken(token);
+//        String username = (String) map.get("username");
+        Map<String, Object> map = ThreadLocalUtil.get();
+        String username = (String) map.get("username");
+
+        User user = userService.findByUserName(username);
+        return Result.success(user);
+    }
+
+    @PutMapping("/update")
+    public Result update(@RequestBody @Validated User user) {
+        // call service methods
+        userService.update(user);
+        return Result.success();
+
+    }
+
+    @PatchMapping("/updateAvatar")
+    public Result updateAvatar(@RequestParam @URL String avatarUrl) {
+        userService.updateAvatar(avatarUrl);
+        return Result.success();
+    }
+
+    @PatchMapping("/updatePwd")
+    public Result updatePassword(@RequestBody Map<String, String> params) {
+        // verify parameters
+        String oldPwd = params.get("old_pwd");
+        String newPwd = params.get("new_pwd");
+        String rePwd = params.get("re_pwd");
+
+        // call StringUtils verify params
+        if (!StringUtils.hasLength(oldPwd) || !StringUtils.hasLength(newPwd) || !StringUtils.hasLength(rePwd)) {
+            return Result.error("Missing required parameters");
+        }
+
+        // verify old pwd
+        // 1. find user by username
+        // 2. compare two pwds
+        Map<String, Object> map = ThreadLocalUtil.get();
+        String username = (String) map.get("username");
+        User loginUser = userService.findByUserName(username);
+
+        if (!loginUser.getPassword().equals(Md5Util.getMD5String(oldPwd))) {
+            return Result.error("Wrong old password");
+        }
+
+        if (!rePwd.equals(newPwd)) {
+            return Result.error("Two new password are not compatible");
+        }
+
+        // call service method
+        userService.updatePassword(newPwd);
+        return Result.success();
+
     }
 }

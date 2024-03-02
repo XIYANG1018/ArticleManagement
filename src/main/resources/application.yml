@@ -7,3 +7,8 @@ spring:
     username: root
     password: aiwohaobuhao888
 
+# 识别驼峰命名和下划线命名的转换
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+

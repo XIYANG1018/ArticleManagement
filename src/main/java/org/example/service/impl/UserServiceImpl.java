@@ -4,8 +4,12 @@ import org.example.mapper.UserMapper;
 import org.example.pojo.Result;
 import org.example.pojo.User;
 import org.example.utils.Md5Util;
+import org.example.utils.ThreadLocalUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.Map;
 
 // Implementation of UserService Interface
 @Service
@@ -15,8 +19,7 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
     @Override
     public User findByUserName(String username) {
-        User u = userMapper.findByUserName(username);
-        return u;
+        return userMapper.findByUserName(username);
     }
 
     @Override
@@ -28,5 +31,24 @@ public class UserServiceImpl implements UserService {
         userMapper.add(username, md5String);
     }
 
+    @Override
+    public void update(User user) {
+        user.setUpdateTime(LocalDateTime.now());
+        userMapper.update(user);
+    }
+
+    @Override
+    public void updateAvatar(String avatarUrl) {
+        Map<String, Object> map = ThreadLocalUtil.get();
+        int id = (int) map.get("id");
+        userMapper.updateAvatar(avatarUrl, id);
+    }
+
+    @Override
+    public void updatePassword(String newPwd) {
+        Map<String, Object> map = ThreadLocalUtil.get();
+        int id = (int) map.get("id");
+        userMapper.updatePwd(Md5Util.getMD5String(newPwd), id);
+    }
 
 }
