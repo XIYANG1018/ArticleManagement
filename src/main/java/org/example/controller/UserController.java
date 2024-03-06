@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.Map;
 
-@RestController
+@RestController // return json data instead of html page
 @RequestMapping("/user") // Request Mapping Path
 @Validated
 public class UserController {
