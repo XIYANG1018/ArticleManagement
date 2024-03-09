@@ -10,12 +10,15 @@ import org.example.utils.Md5Util;
 import org.example.utils.ThreadLocalUtil;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @RestController // return json data instead of html page
 @RequestMapping("/user") // Request Mapping Path
@@ -25,6 +28,11 @@ public class UserController {
     // automatically inject the UserService object, which is responsible for handling business logic related to users.
     @Autowired
     private UserService userService;
+
+    //注入stringredistemplate
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
+
 
     @PostMapping("/register")
     public Result register(@Pattern(regexp = "^\\S{5,16}$") String username, @Pattern(regexp = "^\\S{5,16}$")String password) {
@@ -69,6 +77,10 @@ public class UserController {
 
             String token = JwtUtil.genToken(claims);
 
+            // 把token存储到redis中
+            ValueOperations<String, String> operations = stringRedisTemplate.opsForValue();
+            operations.set(token,token,1, TimeUnit.HOURS);  // 过期时间与token过期时间保持一致
+
             return Result.success(token);
         }
 
@@ -102,7 +114,8 @@ public class UserController {
     }
 
     @PatchMapping("/updatePwd")
-    public Result updatePassword(@RequestBody Map<String, String> params) {
+    public Result updatePassword(@RequestBody Map<String, String> params, @RequestHeader("Authorization") String token) {
+        // 自动把Authorization的token赋值给token
         // verify parameters
         String oldPwd = params.get("old_pwd");
         String newPwd = params.get("new_pwd");
@@ -130,6 +143,11 @@ public class UserController {
 
         // call service method
         userService.updatePassword(newPwd);
+
+        // update密码之后删除对应token
+        ValueOperations<String, String> operations = stringRedisTemplate.opsForValue();
+        operations.getOperations().delete(token);
+
         return Result.success();
 
     }

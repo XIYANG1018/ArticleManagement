@@ -3,6 +3,7 @@ package org.example.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.pojo.Article;
+import org.example.pojo.PageBean;
 import org.example.pojo.Result;
 import org.example.service.impl.ArticleService;
 import org.example.utils.JwtUtil;
@@ -19,25 +20,24 @@ public class ArticleController {
     @Autowired
     private ArticleService articleService;
 
-    @GetMapping("/list")
-    public Result<String> list() {
-//        // verify token before providing service
-//        try {
-//            Map<String, Object> claims = JwtUtil.parseToken(token);
-//            return Result.success("All articles data");
-//        } catch (Exception e) {
-//            // http status code 401
-//            response.setStatus(401);
-//            return Result.error("Haven't login");
-//        }
-
-        return Result.success("All articles data");
-    }
-
     @PostMapping
     public Result add(@RequestBody @Validated Article article) {
         articleService.add(article);
         return Result.success();
+
+    }
+
+    @GetMapping
+    public Result<PageBean<Article>> list(
+            Integer pageNum,
+            Integer pageSize,
+            @RequestParam(required = false) Integer categoryId,
+            @RequestParam(required = false) String state
+
+    ) {
+
+        PageBean<Article> pb = articleService.list(pageNum, pageSize, categoryId, state);
+        return Result.success(pb);
 
     }
 

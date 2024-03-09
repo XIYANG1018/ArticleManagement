@@ -6,9 +6,14 @@ spring:
     # 数据库连接的URL。在这里，使用的是MySQL数据库的连接URL，指定了主机（localhost）、端口（3306）、以及数据库名（big_event）等信息。
     username: root
     password: aiwohaobuhao888
+  data:
+    redis:
+      host: localhost
+      port: 6379
 
 # 识别驼峰命名和下划线命名的转换
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
+
 

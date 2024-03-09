@@ -34,7 +34,7 @@ public class JwtTest {
     @Test
     public void testParse() {
         // simulate token passed by user
-        String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJ1c2VybmFtZSI6IkJvYiJ9LCJleHAiOjE3MDkzNzQ0ODB9.Lixe5SLcO-U4V4tJFHMW_nODYOUuBAkZ1TofBowG5zY"; // the token just created
+        String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGFpbXMiOnsiaWQiOjIsInVzZXJuYW1lIjoieGl5YW5nIn0sImV4cCI6MTcwOTg3NDQ5MX0.yWfW3yib6RM7Ebd--wtDMF60gcTkGsBJM_yO5VZ87Gs"; // the token just created
 
         // build verifier
         JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256("itheima")).build();

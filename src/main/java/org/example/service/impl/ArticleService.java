@@ -2,9 +2,11 @@ package org.example.service.impl;
 
 
 import org.example.pojo.Article;
-import org.springframework.stereotype.Service;
+import org.example.pojo.PageBean;
 
 
 public interface ArticleService {
     void add(Article article);
+
+    PageBean<Article> list(Integer pageNum, Integer pageSize, Integer categoryId, String state);
 }
