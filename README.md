@@ -1,6 +1,6 @@
 # Article Management SpringBoot Project
 
-Welcome to the Article Management project, combining SpringBoot 3, Mybatis, and MySQL.
+Welcome to the Article Management project, combining SpringBoot 3, Mybatis, and MySQL. It realized key features of CRUD operations on articles, especially searching and viewing articles by tags.
 
 ## Achievements
 
