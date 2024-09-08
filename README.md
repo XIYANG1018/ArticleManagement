@@ -7,12 +7,12 @@ Welcome to the Article Management project, combining SpringBoot 3, Mybatis, and 
 Tech stack：
 
 - **SpringBoot**
-- **Validation**： Parameter validation framework, focusing on effective data validation in practice.
-- **Redis**： Caching technology used to improve data processing speed and efficiency.
-- **JWT**：Authentication technology that ensures secure user identity verification.
-- **JUnit**：Unit testing to ensure code quality and functionality correctness.
-- **MyBatis**：Database framework, deepening the understanding of ORM and database interaction.
-- **Axios**：Asynchronous library for handling HTTP requests.
+- **Validation**: Parameter validation framework, focusing on effective data validation in practice.
+- **Redis**: Caching technology used to improve data processing speed and efficiency.
+- **JWT**: Authentication technology that ensures secure user identity verification.
+- **JUnit**: Unit testing to ensure code quality and functionality correctness.
+- **MyBatis**: Database framework, deepening the understanding of ORM and database interaction.
+- **Axios**: Asynchronous library for handling HTTP requests.
 
 ## Key Practice
 
