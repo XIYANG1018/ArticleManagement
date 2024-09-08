@@ -18,5 +18,5 @@ Tech stack：
 
 - **Backend Validation**: Gained a deeper understanding of the usage scenarios for @Validated and custom annotation validation.
 - **Login Authentication Process**: Optimized the authentication process combining JWT and Redis, improving security and efficiency.
-- **Global Exception Handling**: Enhanced the exception handling capabilities by optimizing the code from Black Horse Programmer.
+- **Global Exception Handling**: Enhanced the exception handling capabilities by designing a global exception handler.
 - **MyBatis Practical Application**: Improved understanding of SQL statement control by writing XML files, enhancing data security.
